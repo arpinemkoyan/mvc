@@ -1,0 +1,12 @@
+form {
+    width: 200px;
+}
+
+table, th, tr, td{
+   border-collapse: collapse;
+    border: solid 1px black;
+}
+
+table{
+    width: 500px;
+}
