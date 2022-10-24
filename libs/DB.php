@@ -1,5 +1,9 @@
 <?php
 
+namespace libs;
+
+use PDO;
+use PDOException;
 
 class DB
 {
@@ -25,7 +29,7 @@ class DB
     public static function getInstance()
     {
         if (!self::$instance) {
-            new DB1();
+            new DB();
         }
 
         return self::$instance;
@@ -43,3 +47,4 @@ class DB
     }
 
 }
+

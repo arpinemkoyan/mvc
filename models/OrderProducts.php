@@ -1,5 +1,7 @@
 <?php
-
+namespace models;
+use libs\DB;
+use PDO;
 
 class OrderProducts extends DB
 {

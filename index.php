@@ -1,49 +1,33 @@
-<style><?php include 'C:/xampp/htdocs/php3_1/style.css'; ?></style>
 <?php
-
+use controllers\ProductsController;
+use controllers\UsersController;
+use controllers\OrdersController;
 require_once 'autoload.php';
 
-$db = Products::getInstanceCall();
-$result = $db->select();
 
-if (isset($_GET['product_name'])) {
-    $data = $_GET;
-    $db->insert($data);
-    $result = $db->select();
+echo '*******<pre>';
+print_r($_GET);
+echo '*******';
+$action = '';
+
+$action = array_pop($_GET);
+//$action='';
+if(!$action && $_SERVER['REQUEST_URI'] == '/') {
+    $action = 'index';
+}
+print_r($action);
+
+if($action == 'index') {
+    $controller= new ProductsController();
+    die($controller->index());
+}
+if($action == 'users') {
+    echo 'Heey';
+    $controller= new UsersController();
+    die($controller->index());
 }
 
+header("HTTP/1.0 404 Not Found");
+exit;
 
-echo "
-    <form method='get' action='#'>
-        <input type='text' placeholder='name of product' name='product_name'/>
-        <textarea name='product_description' placeholder='description'></textarea>
-        <input type='number' name='product_price' placeholder='price of description'/>
-        <input type='submit'/>
-</form>
-";
-
-echo "<form  method='post' action='views/buy.php'>";
-echo "<table >";
-echo "<tr>";
-echo "<th>ID</th>";
-echo "<th>NAME</th>";
-echo "<th>DESCRIPTION</th>";
-echo "<th>PRICE</th>";
-echo "<th>COUNT</th>";
-echo "</tr>";
-foreach ($result as $val) {
-    echo "<tr>";
-    foreach ($val as $v) {
-        echo "<td>$v</td>";
-    }
-    $ckkey = "ckbox" . $val["Id"];
-    $ckey = 'count' . $val["Id"];
-
-    echo "<td><input type='number' placeholder='count' name='$ckey'  value='1' min='1' }'/></td>";
-    echo "<td><input type='checkbox' name='$ckkey' /></td>";
-
-    echo "</tr>";
-}
-
-echo "</table><input type='submit' value='buy'  /></form>";
 ?>

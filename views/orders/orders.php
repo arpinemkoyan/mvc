@@ -1,4 +1,4 @@
-<style><?php include 'C:/xampp/htdocs/php3_1/style.css'; ?></style>
+<!--<style>--><?php //include 'C:/xampp/htdocs/php3_1/style.css'; ?><!--</style>-->
 <?php
 require_once '../autoload.php';
 

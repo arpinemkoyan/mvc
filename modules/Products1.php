@@ -1,13 +1,13 @@
 <?php
 
 
-class Products extends DB
+class Products extends DB1
 {
     private static $connect;
 
     function __construct()
     {
-        self::$connect = DB::getInstance();
+        self::$connect = DB1::getInstance();
 
     }
 

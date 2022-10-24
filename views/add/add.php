@@ -1,4 +1,4 @@
-<style><?php include 'C:/xampp/htdocs/php3_1/style.css'; ?></style>
+<!--<style>--><?php //include 'C:/xampp/htdocs/php3_1/style.css'; ?><!--</style>-->
 <?php
 
 require_once '../autoload.php';
@@ -37,7 +37,7 @@ foreach ($orderProducts as $op) {
     $opdb->insert($op);
 }
 
-echo '<form method="post" action="orders.php">';
+echo '<form method="post" action="../orders/orders.php">';
 echo '<input type="submit" value="show orders"/>';
 echo '</form>'
 
