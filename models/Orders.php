@@ -18,21 +18,17 @@ class Orders extends DB
 
     }
 
-    public function insert($orderData)
+    public function insert()
     {
-        $data = array_values($orderData);
-        $sql = 'INSERT INTO orders( id, user_id, sum, order_date) VALUES(:id, :user_id, :sum, :order_date)';
+        echo '****';
+        print_r($this->sum);
+
+        $sql = "INSERT INTO orders (`id`, `user_id`, `sum`, `order_date`) VALUES (?,?,?,?)";
         $ids = self::$connect->query("SELECT id FROM orders")->fetchAll(PDO::FETCH_ASSOC);
-
-        $id = $ids ? ++array_pop($ids)['id'] : 0;
-
-        $statement = self::$connect->prepare($sql);
-        $statement->execute([
-            ':id' => $id,
-            ':user_id' => $data[1],
-            ':sum' => $data[0],
-            ':order_date' => date("Y-m-d h:i:sa") /*jamy sxal e*/
-        ]);
+        $this->id = $ids ? ++array_pop($ids)['id'] : 0;
+        $this->order_date= date("Y-m-d h:i:sa") ;
+        self::$connect->prepare($sql)->execute([$this->id, $this->user_id, $this->sum, $this->order_date]);
+        return $this;
 
     }
 

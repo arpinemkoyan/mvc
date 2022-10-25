@@ -28,9 +28,6 @@ class ProductsController extends DefaultController
     {
         $productsModel = new Products();
         if ($_POST) {    /*$_GET-ov chi linum*/
-            echo '******';
-            print_r($_POST);
-            echo '******';
             $productsModel->name = $_POST['product_name'] ? $_POST['product_name'] : '';
             $productsModel->description = $_POST['product_description'] ? $_POST['product_description'] : '';
             $productsModel->price = $_POST['product_price'] ? $_POST['product_price'] : '';

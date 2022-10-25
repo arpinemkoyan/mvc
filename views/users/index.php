@@ -1,46 +1,7 @@
 <?php
 require_once './models/Users.php';
-//require_once './models/Products.php';
-
-//session_start();
-
-//$db = ProductsController::getInstanceCall();
-//$sel = $db->select();
-//$data = $_POST;
-//$buyId = [];
-//$countProduct = [];
-//foreach ($data as $k => $val) {
-//    if (str_contains($k, 'ckbox')) {
-//        $buyId[] = substr($k, 5);
-//    } else {
-//        if ($val) {
-//            $index = substr($k, 5);
-//            $countProduct[$index] = $val;
-//        }
-//    }
-//}
-//
-//$selData = [];
-//foreach ($buyId as $id) {
-//    $selData[] = $db->selectById($id);
-//}
-//
-//foreach ($selData as $key => $dat) {
-//    $ind = $dat['Id'];
-//    $dat['count'] = $countProduct[$ind];
-//    $selData[$key] = $dat;
-//}
-//
-//
-//$totalSum = 0;
-//foreach ($selData as $arr) {
-//    $totalSum += $arr['price'] * $arr['count'];
-//}
-//
-//$_SESSION["totalSum"] = $totalSum;
-//$_SESSION['product'] = $selData;
-
-
+session_start();
+$_SESSION['totalSum']=$totalSum;
 ?>
 
 <!DOCTYPE html>
@@ -82,10 +43,10 @@ require_once './models/Users.php';
     </table>
 
 
-    <form method='post' action="#">
-        <input type='text' name='fname' placeholder='First name' required/>
-        <input type='text' name='lname' placeholder='Last name' required/>
-        <input type='email' name='email' placeholder='Email' required/>
+    <form method='post' >
+        <input type='text' name='first_name' placeholder='First name'  />
+        <input type='text' name='last_name' placeholder='Last name' />
+        <input type='email' name='email' placeholder='Email' />
 
         <input type='submit' value='submit'/>
 

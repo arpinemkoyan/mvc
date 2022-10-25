@@ -1,10 +1,17 @@
 <?php
+
 namespace models;
 use libs\DB;
 use PDO;
+require_once './libs/DB.php';
 
 class OrderProducts extends DB
 {
+    public $order_id;
+    public $product_id;
+    public $qty;
+    protected $id;
+
     private static $connect;
 
     function __construct()
@@ -13,22 +20,14 @@ class OrderProducts extends DB
 
     }
 
-    public function insert($data)
+    public function insert()
     {
-        $data = array_values($data);
-        $sql = 'INSERT INTO order_products ( id, order_id, product_id, qty) VALUES(:id, :order_id, :product_id, :qty)';
+        $sql = 'INSERT INTO order_products ( id, order_id, product_id, qty) VALUES(?,?,?,?)';
         $ids = self::$connect->query("SELECT id FROM order_products ")->fetchAll(PDO::FETCH_ASSOC);
+        $this->id = $ids ? ++array_pop($ids)['Id'] : 0;
+        self::$connect->prepare($sql)->execute([$this->id, $this->order_id, $this->product_id, $this->qty]);
 
-        $id = $ids ? ++array_pop($ids)['id'] : 0;
-
-        $statement = self::$connect->prepare($sql);
-        $statement->execute([
-            ':id' => $id,
-            ':order_id' => $data[1],
-            ':product_id' => $data[0],
-            ':qty' => $data[2]
-        ]);
-
+        return $this;
     }
 
     public function joinAll()
