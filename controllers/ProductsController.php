@@ -2,6 +2,7 @@
 
 namespace controllers;
 use libs\DB;
+use libs\Session;
 use models\Products;
 
 class ProductsController extends DefaultController

@@ -3,6 +3,7 @@
 namespace controllers;
 
 use libs\DB;
+use libs\Session;
 use models\Orders;
 
 class OrdersController extends DefaultController

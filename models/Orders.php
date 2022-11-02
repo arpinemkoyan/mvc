@@ -20,8 +20,8 @@ class Orders extends DB
 
     public function insert()
     {
-        echo '****';
-        print_r($this->sum);
+//        echo '****';
+        print_r( $this->user_id);
 
         $sql = "INSERT INTO orders (`id`, `user_id`, `sum`, `order_date`) VALUES (?,?,?,?)";
         $ids = self::$connect->query("SELECT id FROM orders")->fetchAll(PDO::FETCH_ASSOC);

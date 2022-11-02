@@ -2,6 +2,9 @@
 
 namespace libs;
 
+use libs\DefaultLib;
+
+require_once 'libs/DefaultLib.php';
 
 class Session extends DefaultLib
 {
@@ -20,7 +23,7 @@ class Session extends DefaultLib
 
     public function get($key, $defaultValue = null)
     {
-        return $_SESSION[$key] ?? $defaultValue;
+        return $_SESSION[$key] ? $_SESSION[$key] : $defaultValue;
     }
 
     public function remove($key)

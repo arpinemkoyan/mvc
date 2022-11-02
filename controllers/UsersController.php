@@ -8,10 +8,14 @@ use models\Users;
 use models\Orders;
 use models\Products;
 
+require_once './libs/Session.php';
+
 
 class UsersController extends DefaultController
 {
     private static $connect;
+//    private static $session;
+
 
     function __construct()
     {
@@ -22,7 +26,6 @@ class UsersController extends DefaultController
     public function index()
     {
         $session = Session::getInstance();
-        print_r($session);
         $productsModel = new Products();
         $usersModel = new Users();
         $ordersModel = new Orders();
@@ -33,10 +36,17 @@ class UsersController extends DefaultController
             $usersModel->last_name = $_POST['last_name'] ? $_POST['last_name'] : '';
             $usersModel->email = $_POST['email'] ? $_POST['email'] : '';
             $usersModel->insert();
-            $userId = $usersModel->getUserByEmail($usersModel->email);
-            $ordersModel->user_id = $userId;
-            $ordersModel->sum = get('totalSum');
+
+            $userById = $usersModel->getUserByEmail($usersModel->email);
+            $ordersModel->user_id = $userById['id'];
+            $ordersModel->sum = $session->get('totalSum');
             $ordersModel->insert();
+
+//            order_products
+//id (int pk)
+//order_id (int)
+//            product_id (int)
+//            qty (int)
 
         } else {
             $data = $_POST;

@@ -1,7 +1,5 @@
 <?php
 require_once './models/Users.php';
-session_start();
-$_SESSION['totalSum']=$totalSum;
 ?>
 
 <!DOCTYPE html>
