@@ -3,6 +3,7 @@
 namespace models;
 
 use libs\DB;
+use libs\Session;
 use PDO;
 require_once './libs/DB.php';
 

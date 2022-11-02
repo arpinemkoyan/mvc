@@ -3,16 +3,14 @@
 namespace controllers;
 
 use libs\DB;
+use libs\Session;
 use models\Users;
 use models\Orders;
 use models\Products;
-//session_start();
 
 
 class UsersController extends DefaultController
 {
-    public $data;
-    public $totalSum;
     private static $connect;
 
     function __construct()
@@ -23,7 +21,8 @@ class UsersController extends DefaultController
 
     public function index()
     {
-
+        $session = Session::getInstance();
+        print_r($session);
         $productsModel = new Products();
         $usersModel = new Users();
         $ordersModel = new Orders();
@@ -34,13 +33,10 @@ class UsersController extends DefaultController
             $usersModel->last_name = $_POST['last_name'] ? $_POST['last_name'] : '';
             $usersModel->email = $_POST['email'] ? $_POST['email'] : '';
             $usersModel->insert();
-            $orders = $this->data;
-            $totalSum=$this->totalSum;
-            $userId=$usersModel->getUserByEmail($usersModel->email);
-            $ordersModel->user_id=$userId;
-            $ordersModel->$_SESSION['totalSum'];
-          $ordersModel->insert();
-            return $this->loadView('users/index', compact('orders', 'totalSum'));
+            $userId = $usersModel->getUserByEmail($usersModel->email);
+            $ordersModel->user_id = $userId;
+            $ordersModel->sum = get('totalSum');
+            $ordersModel->insert();
 
         } else {
             $data = $_POST;
@@ -62,13 +58,17 @@ class UsersController extends DefaultController
                 $orders[] = $order;
 
             }
-            $this->data = $orders;
-            $this->totalSum=$totalSum;
-            $_SESSION['totalSum']=$totalSum;
-            return $this->loadView('users/index', compact('orders', 'totalSum'));
+
+            $session->set('orders', $orders);
+            $session->set('totalSum', $totalSum);
 
         }
 
+
+        $orders = $session->get('orders');
+        $totalSum = $session->get('totalSum');
+
+        return $this->loadView('users/index', compact('orders', 'totalSum'));
 
     }
 
