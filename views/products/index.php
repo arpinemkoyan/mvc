@@ -38,8 +38,8 @@ require_once './models/Products.php';
                         <td><?= $v ?></td>
                     <?php endforeach; ?>
                     <?php
-                    $ckkey = "ckbox" . $val["Id"];
-                    $ckey = 'count' . $val["Id"];
+                    $ckkey = "ckbox" . $val["id"];
+                    $ckey = 'count' . $val["id"];
                     ?>
                     <td><input type='number' placeholder='count' name='<?= $ckey ?>' value='1' min='1' }'/></td>
                     <td><input type='checkbox' name='<?= $ckkey ?>'/></td>
@@ -50,7 +50,7 @@ require_once './models/Products.php';
         <input type='submit' value='Buy'/>
     </form>
 
-    <form method="post" action='/?action=orderproducts'>
+    <form method="post" action='/?action=order-products'>
         <input type="submit" value="Show All">
     </form>
 </div>

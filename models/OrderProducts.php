@@ -10,33 +10,31 @@ class OrderProducts extends DB
     public $order_id;
     public $product_id;
     public $qty;
-    protected $id;
+    protected $_id;
 
-    private static $connect;
+    private static $_connect;
 
-    function __construct()
+    public function __construct()
     {
-        self::$connect = DB::getInstance();
+        self::$_connect = DB::getInstance();
 
     }
 
     public function insert()
     {
-        $sql = 'INSERT INTO order_products ( id, order_id, product_id, qty) VALUES(?,?,?,?)';
-        $ids = self::$connect->query("SELECT id FROM order_products ")->fetchAll(PDO::FETCH_ASSOC);
-        $this->id = $ids ? ++array_pop($ids)['id'] : 0;
-        self::$connect->prepare($sql)->execute([$this->id, $this->order_id, $this->product_id, $this->qty]);
-
+        $sql = 'INSERT INTO order_products ( order_id, product_id, qty) VALUES(?,?,?)';
+        self::$_connect->prepare($sql)->execute([$this->order_id, $this->product_id, $this->qty]);
+//        $this->_id = self::$_connect->lastInsertedId();
         return $this;
     }
 
     public function joinAll()
     {
-        $query_search = self::$connect->prepare(" SELECT * 
-        FROM order_products 
-        LEFT JOIN products ON (order_products.product_id=products.Id) 
-        LEFT JOIN orders ON (order_products.order_id=orders.id)
-        LEFT JOIN users ON (orders.user_id=users.id)
+        $query_search = self::$_connect->prepare(" SELECT * 
+            FROM order_products 
+            LEFT JOIN products ON (order_products.product_id=products.Id) 
+            LEFT JOIN orders ON (order_products.order_id=orders.id)
+            LEFT JOIN users ON (orders.user_id=users.id)
  ");
 
         $query_search->execute();

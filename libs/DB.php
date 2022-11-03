@@ -7,20 +7,20 @@ use PDOException;
 
 class DB
 {
-    private $servername = "127.0.0.1";
-    private static $username = "root";
-    private static $password = "";
-    private $dbName = "db";
+    private $_servername = "127.0.0.1";
+    private static $_username = "root";
+    private static $_password = "";
+    private $_dbName = "db";
 
-    protected static $instance;
-    protected static $instances;
+    protected static $_instance;
+    protected static $_instances;
 
 
     private function __construct()
     {
 
         try {
-            self::$instance = new PDO("mysql:host=$this->servername;dbname=$this->dbName;charset=UTF8", self::$username, self::$password);
+            self::$_instance = new PDO("mysql:host=$this->_servername;dbname=$this->_dbName;charset=UTF8", self::$_username, self::$_password);
         } catch (PDOException $e) {
             echo "MySql Connection Error: " . $e->getMessage();
         }
@@ -28,22 +28,22 @@ class DB
 
     public static function getInstance()
     {
-        if (!self::$instance) {
+        if (!self::$_instance) {
             new DB();
         }
 
-        return self::$instance;
+        return self::$_instance;
     }
 
     public static function getInstanceCall()
     {
         $class = get_called_class();
 
-        if (!isset($instances[$class])) {
-            self::$instances[$class] = new $class();
+        if (!isset($_instances[$class])) {
+            self::$_instances[$class] = new $class();
         }
 
-        return self::$instances[$class];
+        return self::$_instances[$class];
     }
 
 }

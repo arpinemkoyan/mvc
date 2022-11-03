@@ -14,13 +14,11 @@ require_once './libs/Session.php';
 
 class UsersController extends DefaultController
 {
-    private static $connect;
-//    private static $session;
+    private static $_connect;
 
-
-    function __construct()
+    public function __construct()
     {
-        self::$connect = DB::getInstance();
+        self::$_connect = DB::getInstance();
 
     }
 
@@ -32,15 +30,16 @@ class UsersController extends DefaultController
         $ordersModel = new Orders();
         $orderProductsModel = new OrderProducts();
 
-        if (in_array('first_name', array_keys($_POST))) {    /*$_GET-ov chi linum*/
+        if (isset($_POST['first_name'])) {
 
-            $usersModel->first_name = $_POST['first_name'] ? $_POST['first_name'] : '';
-            $usersModel->last_name = $_POST['last_name'] ? $_POST['last_name'] : '';
-            $usersModel->email = $_POST['email'] ? $_POST['email'] : '';
+            $usersModel->first_name = $_POST['first_name'] ?? '';
+            $usersModel->last_name = $_POST['last_name'] ?? '';
+            $usersModel->email = $_POST['email'] ??'';
             $usersModel->insert();
 
             $userById = $usersModel->getUserByEmail($usersModel->email);
             $ordersModel->user_id = $userById['id'];
+//            print_r($usersModel->getId());
             $ordersModel->sum = $session->get('totalSum');
             $ordersModel->insert();
 
@@ -48,7 +47,7 @@ class UsersController extends DefaultController
             foreach ($ordersIdCount as $product_id=>$count){
                 $orderData=$ordersModel->selectbyUserId( $userById['id']);
                 $orderProductsModel->product_id=$product_id;
-                $orderProductsModel->order_id=$orderData['Id'];
+                $orderProductsModel->order_id=$orderData['id'];
                 $orderProductsModel->qty=$count;
                 $orderProductsModel->insert();
             }
@@ -63,7 +62,6 @@ class UsersController extends DefaultController
                     $ordersData[$buyId] = $data['count' . $buyId];
                 }
             }
-//            print_r($ordersData);
             $session->set('ordersData', $ordersData);
 
             $orders = [];

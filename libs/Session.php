@@ -9,7 +9,7 @@ require_once 'libs/DefaultLib.php';
 class Session extends DefaultLib
 {
 
-    protected static $instance;
+    protected static $_instance;
 
     protected function __construct()
     {

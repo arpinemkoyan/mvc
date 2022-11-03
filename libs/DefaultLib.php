@@ -7,16 +7,16 @@ abstract class DefaultLib
 {
 
 
-    protected static $instance;
+    protected static $_instance;
 
     abstract protected function __construct();
 
     public static function getInstance()
     {
-        if (!static::$instance) {
-            static::$instance = new static();
+        if (!static::$_instance) {
+            static::$_instance = new static();
         }
-        return static::$instance;
+        return static::$_instance;
     }
 
 }

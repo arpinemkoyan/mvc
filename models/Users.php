@@ -3,7 +3,6 @@
 namespace models;
 
 use libs\DB;
-use libs\Session;
 use PDO;
 require_once './libs/DB.php';
 
@@ -12,20 +11,20 @@ class Users extends DB
     public $first_name;
     public $last_name;
     public $email;
-    protected $id;
+    protected $_id;
 
-    private static $connect;
+    private static $_connect;
 
-    function __construct()
+    public function __construct()
     {
-        self::$connect = DB::getInstance();
+        self::$_connect = DB::getInstance();
 
     }
 
     public function selectALL()
     {
 
-        $data = self::$connect->query("SELECT * FROM users");
+        $data = self::$_connect->query("SELECT * FROM users");
         $result = $data->fetchAll(PDO::FETCH_ASSOC);
 
         return $result;
@@ -34,17 +33,18 @@ class Users extends DB
 
     public function insert()
     {
-        $sql = "INSERT INTO users (`id`, `first_name`, `last_name`, `email`) VALUES (?,?,?,?)";
-        $ids = self::$connect->query("SELECT id FROM users")->fetchAll(PDO::FETCH_ASSOC);
-        $this->id = $ids ? ++array_pop($ids)['id'] : 0;
-        self::$connect->prepare($sql)->execute([$this->id, $this->first_name, $this->last_name, $this->email]);
+        $sql = "INSERT INTO users ( `first_name`, `last_name`, `email`) VALUES (?,?,?)";
+        self::$_connect->prepare($sql)->execute([ $this->first_name, $this->last_name, $this->email]);
+//        print_r(self::$_connect->lastInsertedId());
+//        $this->_id = self::$_connect->lastInsertedId();
+
         return $this;
 
     }
 
     public function selectWhere($where, $val)
     {
-        $stmt = self::$connect->prepare("SELECT * FROM users WHERE $where=:vla");
+        $stmt = self::$_connect->prepare("SELECT * FROM users WHERE $where=:vla");
         $stmt->execute([':val' => $val]);
         $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -54,7 +54,7 @@ class Users extends DB
 
         public function getUserByEmail($email)
     {
-        $query = self::$connect->prepare('SELECT * FROM users WHERE email = :email');
+        $query = self::$_connect->prepare('SELECT * FROM users WHERE email = :email');
         $query->execute(['email' => $email]);
 
         $result = $query->fetch(PDO::FETCH_ASSOC);
@@ -63,5 +63,8 @@ class Users extends DB
         }
     }
 
+    public function getId(){
+        return self::$_connect->lastInsertId();
+    }
 
 }

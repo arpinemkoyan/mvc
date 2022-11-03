@@ -7,11 +7,11 @@ use models\OrderProducts;
 class OrderProductsController extends DefaultController
 {
 
-    private static $connect;
+    private static $_connect;
 
-    function __construct()
+    public function __construct()
     {
-        self::$connect = DB::getInstance();
+        self::$_connect = DB::getInstance();
     }
 
 

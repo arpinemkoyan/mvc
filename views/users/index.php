@@ -50,7 +50,7 @@ require_once './models/Users.php';
 
     </form>
 
-    <form method="post" action='/?action=orderproducts'>
+    <form method="post" action='/?action=order-products'>
         <input type="submit" value="Show All">
     </form>
 
