@@ -23,7 +23,7 @@ class Session extends DefaultLib
 
     public function get($key, $defaultValue = null)
     {
-        return $_SESSION[$key] ? $_SESSION[$key] : $defaultValue;
+        return $_SESSION[$key];
     }
 
     public function remove($key)

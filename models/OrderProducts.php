@@ -24,7 +24,7 @@ class OrderProducts extends DB
     {
         $sql = 'INSERT INTO order_products ( id, order_id, product_id, qty) VALUES(?,?,?,?)';
         $ids = self::$connect->query("SELECT id FROM order_products ")->fetchAll(PDO::FETCH_ASSOC);
-        $this->id = $ids ? ++array_pop($ids)['Id'] : 0;
+        $this->id = $ids ? ++array_pop($ids)['id'] : 0;
         self::$connect->prepare($sql)->execute([$this->id, $this->order_id, $this->product_id, $this->qty]);
 
         return $this;

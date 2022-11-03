@@ -4,6 +4,7 @@ namespace controllers;
 
 use libs\DB;
 use libs\Session;
+use models\OrderProducts;
 use models\Users;
 use models\Orders;
 use models\Products;
@@ -29,6 +30,7 @@ class UsersController extends DefaultController
         $productsModel = new Products();
         $usersModel = new Users();
         $ordersModel = new Orders();
+        $orderProductsModel = new OrderProducts();
 
         if (in_array('first_name', array_keys($_POST))) {    /*$_GET-ov chi linum*/
 
@@ -42,11 +44,14 @@ class UsersController extends DefaultController
             $ordersModel->sum = $session->get('totalSum');
             $ordersModel->insert();
 
-//            order_products
-//id (int pk)
-//order_id (int)
-//            product_id (int)
-//            qty (int)
+            $ordersIdCount=$session->get('ordersData');
+            foreach ($ordersIdCount as $product_id=>$count){
+                $orderData=$ordersModel->selectbyUserId( $userById['id']);
+                $orderProductsModel->product_id=$product_id;
+                $orderProductsModel->order_id=$orderData['Id'];
+                $orderProductsModel->qty=$count;
+                $orderProductsModel->insert();
+            }
 
         } else {
             $data = $_POST;
@@ -54,9 +59,12 @@ class UsersController extends DefaultController
             foreach ($data as $k => $val) {
                 if (str_contains($k, 'ckbox')) {
                     $buyId = substr($k, 5);
+                    $session->set('product_id', $buyId);
                     $ordersData[$buyId] = $data['count' . $buyId];
                 }
             }
+//            print_r($ordersData);
+            $session->set('ordersData', $ordersData);
 
             $orders = [];
             $totalSum = 0;
@@ -64,6 +72,7 @@ class UsersController extends DefaultController
             foreach ($ordersData as $id => $count) {
                 $order = $productsModel->selectWhere('Id', $id);
                 $order['count'] = $count;
+                $session->set('count', $count);
                 $totalSum += $count * $order['price'];
                 $orders[] = $order;
 

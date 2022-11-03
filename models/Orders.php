@@ -20,8 +20,6 @@ class Orders extends DB
 
     public function insert()
     {
-//        echo '****';
-        print_r( $this->user_id);
 
         $sql = "INSERT INTO orders (`id`, `user_id`, `sum`, `order_date`) VALUES (?,?,?,?)";
         $ids = self::$connect->query("SELECT id FROM orders")->fetchAll(PDO::FETCH_ASSOC);
@@ -32,8 +30,10 @@ class Orders extends DB
 
     }
 
-    public function getById($id)
+    public function getById()
     {
+        self::$connect->lastInsertId(200);
+        return self::$connect->lastInsertId();
         $query = self::$connect->prepare('SELECT * FROM orders WHERE user_id = :id');
         $query->execute(['id' => $id]);
 
@@ -42,7 +42,15 @@ class Orders extends DB
             return $result;
         }
     }
+    public function selectbyUserId( $val)
+    {
+        $stmt = self::$connect->prepare("SELECT * FROM orders WHERE user_id=?");
+        $stmt->execute([$val]);
+        $order = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        return $order;
+
+    }
 
 
 //    public function selectALL()

@@ -3,7 +3,6 @@
 namespace controllers;
 
 use libs\DB;
-use libs\Session;
 use models\Orders;
 
 class OrdersController extends DefaultController
@@ -30,10 +29,6 @@ class OrdersController extends DefaultController
     {
         $ordersModel = new Orders();
         if ($_POST) {    /*$_GET-ov chi linum*/
-            echo '******';
-            print_r($_POST);
-            echo '******';
-            $data=$_POST;
             foreach ($data as $k => $val) {
                 if (str_contains($k, 'ckbox')) {
                     $buyId=substr($k, 5);

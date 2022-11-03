@@ -36,7 +36,6 @@ class ProductsController extends DefaultController
             $this->redirect('/');
         }
 
-
         $data = $productsModel->selectAll();
 
         return $this->loadView('products/index', compact('data', 'productsModel'));

@@ -15,12 +15,7 @@ require_once './models/Users.php';
 </head>
 <body>
 <div class="container">
-<?php
-
-print_r($_POST['fname'])
-
-?>
-   <!-- <table>
+    <table>
         <thead>
         <tr>
             <th>ID</th>
@@ -39,18 +34,18 @@ print_r($_POST['fname'])
         </tr>
         </thead>
         <tbody>
-        <?php /*foreach ($list as $key => $val): */?>
+        <?php foreach ($list as $key => $val): ?>
             <tr>
-                <td><?/*= $key */?></td>
-                <?php /*foreach ($val as $k => $v): */?>
-                    <?php /*if (!(($k === 'id') || ($k === 'Id'))): */?>
-                        <td><?/*= $v */?></td>
-                    <?php /*endif; */?>
-                <?php /*endforeach; */?>
+                <td><?= $key ?></td>
+                <?php foreach ($val as $k => $v): ?>
+                    <?php if (!(($k === 'id') || ($k === 'Id'))): ?>
+                        <td><?= $v ?></td>
+                    <?php endif; ?>
+                <?php endforeach; ?>
             </tr>
-        <?php /*endforeach; */?>
+        <?php endforeach; ?>
         </tbody>
-    </table>-->
+    </table>
 
 </div>
 </body>

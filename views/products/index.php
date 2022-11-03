@@ -49,6 +49,10 @@ require_once './models/Products.php';
         </table>
         <input type='submit' value='Buy'/>
     </form>
+
+    <form method="post" action='/?action=orderproducts'>
+        <input type="submit" value="Show All">
+    </form>
 </div>
 </body>
 </html>
