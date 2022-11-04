@@ -36,7 +36,6 @@ class Products extends DB
 
         $sql = "INSERT INTO products ( `name`, `description`, `price`) VALUES (?,?,?)";
         self::$_connect->prepare($sql)->execute([ $this->name, $this->description, intval($this->price)]);
-//        print_r(self::$_connect));
 //        $this->_id = self::$_connect->lastInsertId();
         return $this;
     }
@@ -49,6 +48,15 @@ class Products extends DB
 
         return $product;
 
+    }
+
+    public function whereIn($clm, $arr){
+
+        $in=str_repeat('?, ', count($arr) - 1) . '?';
+        $stmt = self::$_connect->prepare("SELECT * FROM products WHERE $clm in ($in)");
+        $stmt->execute($arr);
+        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $products;
     }
 
 }

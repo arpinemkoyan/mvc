@@ -1,7 +1,3 @@
-<?php
-require_once './models/Users.php';
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

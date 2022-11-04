@@ -1,8 +1,4 @@
 <!--********** main page *********-->
-<?php
-require_once './models/Products.php';
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

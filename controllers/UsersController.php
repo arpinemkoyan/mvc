@@ -34,45 +34,46 @@ class UsersController extends DefaultController
 
             $usersModel->first_name = $_POST['first_name'] ?? '';
             $usersModel->last_name = $_POST['last_name'] ?? '';
-            $usersModel->email = $_POST['email'] ??'';
+            $usersModel->email = $_POST['email'] ?? '';
             $usersModel->insert();
 
             $userById = $usersModel->getUserByEmail($usersModel->email);
             $ordersModel->user_id = $userById['id'];
-//            print_r($usersModel->getId());
             $ordersModel->sum = $session->get('totalSum');
             $ordersModel->insert();
 
-            $ordersIdCount=$session->get('ordersData');
-            foreach ($ordersIdCount as $product_id=>$count){
-                $orderData=$ordersModel->selectbyUserId( $userById['id']);
-                $orderProductsModel->product_id=$product_id;
-                $orderProductsModel->order_id=$orderData['id'];
-                $orderProductsModel->qty=$count;
+            $ordersIdCount = $session->get('ordersData');
+            foreach ($ordersIdCount as $product_id => $count) {
+                $orderData = $ordersModel->selectbyUserId($userById['id']);
+                $orderProductsModel->product_id = $product_id;
+                $orderProductsModel->order_id = $orderData['id'];
+                $orderProductsModel->qty = $count;
                 $orderProductsModel->insert();
             }
 
         } else {
-            $data = $_POST;
             $ordersData = [];
-            foreach ($data as $k => $val) {
-                if (str_contains($k, 'ckbox')) {
+            foreach ($_POST as $k => $val) {
+                if (strpos($k, 'ckbox') !== false) {
                     $buyId = substr($k, 5);
                     $session->set('product_id', $buyId);
-                    $ordersData[$buyId] = $data['count' . $buyId];
+                    $ordersData[$buyId] = $_POST['count' . $buyId];
                 }
             }
+
             $session->set('ordersData', $ordersData);
 
             $orders = [];
             $totalSum = 0;
+            $ordersbyId = $productsModel->whereIn('id', array_keys($ordersData));
 
-            foreach ($ordersData as $id => $count) {
-                $order = $productsModel->selectWhere('Id', $id);
-                $order['count'] = $count;
+            foreach ($ordersbyId as $ord) {
+                $id = $ord['id'];
+                $count = $ordersData[$id];
+                $ord['count'] = $count;
+                $orders[] = $ord;
                 $session->set('count', $count);
-                $totalSum += $count * $order['price'];
-                $orders[] = $order;
+                $totalSum += $count * $ord['price'];
 
             }
 
